@@ -6,8 +6,13 @@ const authRoute = require("./Routes/auth");
 const userRoute = require("./Routes/users");
 const movieRoute = require("./Routes/movies");
 const listRoute = require("./Routes/lists");
+const cors = require('cors');
 
+
+app.use(cors());
+app.options('*', cors());
 dotenv.config();
+
 
 mongoose
   .connect(process.env.MONGO_URL, {

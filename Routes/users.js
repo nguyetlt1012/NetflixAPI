@@ -62,7 +62,7 @@ router.get("/", verify, async (req, res) => {
     if (req.user.isAdmin) {
       try {
         const users = query
-          ? await User.find().sort({ _id: -1 }).limit(5)
+          ? await User.find().sort({ _id: -1 }).limit(2) // _id: -1 lay tu duoi len , _id: 1 la lay tu tren xuong 
           : await User.find();
         res.status(200).json(users);
       } catch (err) {
@@ -72,5 +72,35 @@ router.get("/", verify, async (req, res) => {
       res.status(403).json("You are not allowed to see all users!");
     }
   });
+
+
+  // get stats user
+  // return sum of user register in month 
+  // aggregate in mongodb de ket hop many collection va group by same SQL
+router.get("/stats", async (req, res) =>{
+    const today= new Date();
+    const lastYear = today.setFullYear(today.setFullYear - 1);
+    
+    try{
+        const data = await User.aggregate([
+            {
+                $project:{
+                    month: {$month: "$createdAt"},
+                },
+            },
+            {
+                $group: {
+                    _id: { 
+                        month: "$month",},
+                    total: { $sum: 1},
+                },
+            },
+        ]);
+        res.status(200).json(data);
+    }catch(err){
+        res.status(500).json(err);
+    }
+})
+
 
 module.exports = router

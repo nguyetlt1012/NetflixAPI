@@ -1,22 +1,15 @@
 const mongoose = require("mongoose");
 
-const MovieSchema = new mongoose.Schema(
+const ListSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, unique: true },
-    desc: { type: String },
-    img: { type: String },
-    imgTitle: { type: String },
-    imgSm: { type: String },
-    trailer: { type: String },
-    video: { type: String },
-    year: { type: String },
-    limit: { type: String },
-    genre: { type: String },
-    isSeries: { type: String, default: false},
+    type: {type: String }, 
+    genre: {type: String}, 
+    content: { type: Array}
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Movie", MovieSchema);
+module.exports = mongoose.model("List", ListSchema);

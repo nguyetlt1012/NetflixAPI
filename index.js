@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoute = require("./Routes/auth");
 const userRoute = require("./Routes/users");
-
+const movieRoute = require("./Routes/movies");
+const listRoute = require("./Routes/lists");
 
 dotenv.config();
 
@@ -13,12 +14,14 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("DB connect successfull!!!"))
+  .then(() => console.log("DB connect successfully !!!"))
   .catch((err) => console.log(err));
 
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api/movies", movieRoute);
+app.use("/api/lists", listRoute);
 
 
 app.listen(8800, () => {
